@@ -1,0 +1,42 @@
+diff --git a/node_modules/@tanstack/vue-query-devtools/dist/esm/devtools.vue.js b/node_modules/@tanstack/vue-query-devtools/dist/esm/devtools.vue.js
+index c5c0c6b..10c6ec0 100644
+--- a/node_modules/@tanstack/vue-query-devtools/dist/esm/devtools.vue.js
++++ b/node_modules/@tanstack/vue-query-devtools/dist/esm/devtools.vue.js
+@@ -1,4 +1,4 @@
+-import { defineComponent, ref, watchEffect, onMounted, onScopeDispose, createElementBlock, openBlock } from "vue";
++import { defineComponent, ref, watchEffect, onMounted, onScopeDispose } from "@vue/composition-api";
+ import { useQueryClient, onlineManager } from "@tanstack/vue-query";
+ import { TanstackQueryDevtools } from "@tanstack/query-devtools";
+ const _sfc_main = /* @__PURE__ */ defineComponent({
+@@ -35,19 +35,22 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
+       devtools.setErrorTypes(props.errorTypes || []);
+     });
+     onMounted(() => {
+-      devtools.mount(div.value);
++      if (div.value) {
++        devtools.mount(div.value);
++      }
+     });
+     onScopeDispose(() => {
+       devtools.unmount();
+     });
+-    return (_ctx, _cache) => {
+-      return openBlock(), createElementBlock("div", {
+-        className: "tsqd-parent-container",
+-        ref_key: "div",
+-        ref: div
+-      }, null, 512);
+-    };
+-  }
++
++    return { div };
++  },
++  render(h) {
++    return h('div', {
++      class: "tsqd-parent-container",
++      ref: 'div'
++    })
++  },
+ });
+ export {
+   _sfc_main as default

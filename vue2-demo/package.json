@@ -5,12 +5,16 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@tanstack/vue-query": "^5.83.0",
+    "@tanstack/vue-query-devtools": "^5.83.0",
     "@vue/composition-api": "^1.7.2",
     "core-js": "^3.8.3",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "vue": "2.6.14",
     "vue-router": "3.5.1"
   },
