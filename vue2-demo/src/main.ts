@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import VueCompositionAPI, { h } from '@vue/composition-api';
+import VueCompositionAPI, { createApp, h } from '@vue/composition-api';
 import { VueQueryPlugin } from '@tanstack/vue-query';
 
 Vue.use(VueCompositionAPI);
@@ -9,7 +9,9 @@ Vue.use(VueQueryPlugin);
 
 Vue.config.productionTip = false;
 
-new Vue({
+createApp({
   router,
-  render: () => h(App),
-}).$mount('#app');
+  render() {
+    return h(App);
+  },
+}).mount('#app');
