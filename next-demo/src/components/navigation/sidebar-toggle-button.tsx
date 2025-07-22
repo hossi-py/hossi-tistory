@@ -3,6 +3,7 @@
 import { Heading, PanelLeftOpen } from "lucide-react";
 import { useState } from "react";
 import CustomButton from "../custom/custom-button";
+import { cn } from "@/lib/utils";
 
 interface SidebarToggleButtonProps {
   expanded: boolean;
@@ -15,25 +16,35 @@ export default function SidebarToggleButton({
 }: SidebarToggleButtonProps) {
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
-  const icon = isHovered ? (
-    <PanelLeftOpen style={{ width: "20px", height: "20px" }} />
+  const icon = expanded ? (
+    <Heading />
+  ) : isHovered ? (
+    <PanelLeftOpen />
   ) : (
     <Heading />
   );
 
-  const ariaLabel = isHovered ? "사이드바 열기" : "";
+  const ariaLabel = !expanded && isHovered ? "사이드바 열기" : "";
+
+  const handleToggleButtonClick = () => {
+    if (!expanded && isHovered) {
+      onToggle(!expanded);
+    } else {
+      alert("홈으로");
+    }
+  };
 
   return (
     <CustomButton
       size="icon"
       variant="ghost"
-      className="[cursor:ew-resize]"
+      className={cn(!expanded && isHovered && "[cursor:ew-resize]")}
       aria-label={ariaLabel}
       aria-expanded={expanded}
       tooltipContent={ariaLabel}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={() => onToggle(!expanded)}
+      onClick={handleToggleButtonClick}
     >
       {icon}
     </CustomButton>
