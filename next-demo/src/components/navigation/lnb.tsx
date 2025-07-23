@@ -1,6 +1,12 @@
 "use client";
 
-import { PanelLeftClose } from "lucide-react";
+import {
+  FolderGit2,
+  Home,
+  NotebookPen,
+  PanelLeftClose,
+  User,
+} from "lucide-react";
 import CustomButton from "../custom/custom-button";
 import { useSidebarExpanded } from "@/hooks/use-sidebar-expanded";
 import SidebarToggleButton from "./sidebar-toggle-button";
@@ -43,7 +49,41 @@ export default function LNB() {
       </div>
 
       {/* 메뉴 */}
-      <nav className="flex-1 overflow-y-auto space-y-2 px-2"></nav>
+      <nav className="flex flex-col px-2 mt-2">
+        <CustomButton
+          className={cn(
+            "cursor-pointer",
+            expanded && "justify-baseline pl-2.5"
+          )}
+          icon={<User />}
+          label="소개"
+          tooltipContent={expanded ? "" : "소개"}
+          variant="ghost"
+          expanded={expanded}
+        />
+        <CustomButton
+          className={cn(
+            "cursor-pointer",
+            expanded && "justify-baseline pl-2.5"
+          )}
+          icon={<FolderGit2 />}
+          label="프로젝트"
+          tooltipContent={expanded ? "" : "프로젝트"}
+          variant="ghost"
+          expanded={expanded}
+        />
+        <CustomButton
+          className={cn(
+            "cursor-pointer",
+            expanded && "justify-baseline pl-2.5"
+          )}
+          icon={<NotebookPen />}
+          label="기술 블로그"
+          tooltipContent={expanded ? "" : "기술 블로그"}
+          variant="ghost"
+          expanded={expanded}
+        />
+      </nav>
     </aside>
   );
 }

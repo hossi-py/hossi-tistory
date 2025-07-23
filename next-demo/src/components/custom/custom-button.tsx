@@ -10,17 +10,36 @@ import { type VariantProps } from "class-variance-authority";
 interface CustomButtonProps
   extends React.ComponentProps<typeof Button>,
     VariantProps<typeof buttonVariants> {
+  icon?: React.ReactNode;
+  expanded?: boolean;
+  label?: string;
   tooltipContent?: React.ReactNode;
   tooltipPosition?: "top" | "right" | "bottom" | "left";
+  size: "default" | "sm" | "lg" | "icon";
 }
 
 export default function CustomButton({
+  icon,
+  expanded,
+  label,
   children,
   tooltipContent,
   tooltipPosition = "right",
+  size,
   ...buttonProps
 }: any) {
-  const button = <Button {...buttonProps}>{children}</Button>;
+  const buttonSize = !expanded && icon ? "icon" : size;
+
+  const button = (
+    <Button size={buttonSize} {...buttonProps}>
+      {children ?? (
+        <div className="flex justify-center items-center gap-2">
+          {icon}
+          {expanded && label && <span>{label}</span>}
+        </div>
+      )}
+    </Button>
+  );
 
   if (!tooltipContent) return button;
 

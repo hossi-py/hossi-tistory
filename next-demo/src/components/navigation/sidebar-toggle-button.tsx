@@ -38,7 +38,10 @@ export default function SidebarToggleButton({
     <CustomButton
       size="icon"
       variant="ghost"
-      className={cn(!expanded && isHovered && "[cursor:ew-resize]")}
+      className={cn(
+        "[cursor:pointer]",
+        !expanded && isHovered && "[cursor:ew-resize]"
+      )}
       aria-label={ariaLabel}
       aria-expanded={expanded}
       tooltipContent={ariaLabel}
