@@ -5,10 +5,8 @@ import { useSidebarExpandedStore } from "@/stores/sidebar-expanded-store";
 
 export default function ClientLayout({
   children,
-  className,
 }: {
   children: React.ReactNode;
-  className?: string;
 }) {
   const expanded = useSidebarExpandedStore((s) => s.expanded);
   const isHydrated = useSidebarExpandedStore((s) => s.isHydrated);
@@ -18,13 +16,15 @@ export default function ClientLayout({
   return (
     <main
       className={cn(
-        "transition-all duration-300",
+        "transition-all duration-300 pt-[var(--height-header)]",
         expanded
           ? "ml-[var(--width-expanded-lnb)]"
           : "ml-[var(--width-collapsed-lnb)]"
       )}
     >
-      <div className="">{children}</div>
+      <div className="px-20 max-w-full overflow-x-auto break-words">
+        {children}
+      </div>
     </main>
   );
 }

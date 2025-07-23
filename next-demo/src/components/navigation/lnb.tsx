@@ -6,7 +6,7 @@ import SidebarToggleButton from "./sidebar-toggle-button";
 import { cn } from "@/lib/utils";
 import { useSidebarExpandedStore } from "@/stores/sidebar-expanded-store";
 
-export default function LNB({ className }: { className?: string }) {
+export default function LNB() {
   const expanded = useSidebarExpandedStore((s) => s.expanded);
   const isHydrated = useSidebarExpandedStore((s) => s.isHydrated);
   const setExpanded = useSidebarExpandedStore((s) => s.setExpanded);
@@ -22,8 +22,7 @@ export default function LNB({ className }: { className?: string }) {
         "border-r [border-color:var(--color-navigation-border)]",
         expanded
           ? "[width:var(--width-expanded-lnb)]"
-          : "[width:var(--width-collapsed-lnb)]",
-        className
+          : "[width:var(--width-collapsed-lnb)]"
       )}
     >
       {/* 상단 영역 */}

@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { useSidebarExpandedStore } from "@/stores/sidebar-expanded-store";
 
-export default function GNB({ className }: { className?: string }) {
+export default function GNB() {
   const expanded = useSidebarExpandedStore((s) => s.expanded);
   const isHydrated = useSidebarExpandedStore((s) => s.isHydrated);
 
@@ -16,8 +16,7 @@ export default function GNB({ className }: { className?: string }) {
         "h-[var(--height-header)]",
         expanded
           ? "ml-[var(--width-expanded-lnb)] w-[calc(100%-var(--width-expanded-lnb))]"
-          : "ml-[var(--width-collapsed-lnb)] w-[calc(100%-var(--width-collapsed-lnb))]",
-        className
+          : "ml-[var(--width-collapsed-lnb)] w-[calc(100%-var(--width-collapsed-lnb))]"
       )}
     >
       안녕

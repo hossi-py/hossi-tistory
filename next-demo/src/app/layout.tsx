@@ -20,21 +20,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("h-screen overflow-hidden antialiased")}>
+      <body className={cn("antialiased overflow-hidden")}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <div className="grid h-full grid-rows-[auto,1fr]  grid-cols-[auto,1fr]">
-            <LNB className="row-span-2" />
+          <div>
+            <LNB />
 
-            <GNB className="col-start-2 row-start-1" />
+            <GNB />
 
-            <ClientLayout className="col-start-2 row-start-2 h-full overflow-auto">
-              {children}
-            </ClientLayout>
+            <ClientLayout>{children}</ClientLayout>
           </div>
         </ThemeProvider>
       </body>
