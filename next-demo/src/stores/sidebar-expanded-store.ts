@@ -2,22 +2,39 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { immer } from "zustand/middleware/immer";
 
 interface SidebarExpandedState {
   expanded: boolean;
+  isHydrated: boolean;
   setExpanded: (value: boolean) => void;
   toggleExpanded: () => void;
 }
 
 export const useSidebarExpandedStore = create<SidebarExpandedState>()(
   persist(
-    (set) => ({
+    immer((set) => ({
       expanded: true,
-      setExpanded: (value) => set({ expanded: value }),
-      toggleExpanded: () => set((state) => ({ expanded: !state.expanded })),
-    }),
+      isHydrated: false,
+      setExpanded: (value) => {
+        set((state) => {
+          state.expanded = value;
+        });
+      },
+      toggleExpanded: () => {
+        set((state) => {
+          state.expanded = !state.expanded;
+        });
+      },
+    })),
     {
       name: "lnb-expanded",
+      onRehydrateStorage: () => (state) => {
+        state &&
+          setTimeout(() => {
+            state.isHydrated = true;
+          }, 0);
+      },
     }
   )
 );

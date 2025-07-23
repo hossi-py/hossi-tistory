@@ -8,18 +8,22 @@ import { useSidebarExpandedStore } from "@/stores/sidebar-expanded-store";
 
 export default function LNB() {
   const expanded = useSidebarExpandedStore((s) => s.expanded);
+  const isHydrated = useSidebarExpandedStore((s) => s.isHydrated);
   const setExpanded = useSidebarExpandedStore((s) => s.setExpanded);
   const toggleExpanded = useSidebarExpandedStore((s) => s.toggleExpanded);
 
-  /** 초기 expanded가 null일 때 렌더링하지 않음 → 깜빡임 방지 */
-  if (expanded === null) return null;
+  /** hydration 전에는 렌더링 안 함 => TODO 스켈레톤 컴포넌트 넣어보기 */
+  if (!isHydrated) return null;
 
   return (
     <aside
       className={cn(
+        "fixed top-0 left-0",
         "h-screen dark:bg-zinc-900 border-r [border-color:var(--color-navigation-border)]",
         "flex flex-col transition-all duration-300 ease-in-out",
-        expanded ? "w-60" : "w-13"
+        expanded
+          ? "[width:var(--width-expanded-lnb)]"
+          : "[width:var(--width-collapsed-lnb)]"
       )}
     >
       {/* 상단 영역 */}

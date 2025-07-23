@@ -6,6 +6,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import GNB from "@/components/navigation/gnb";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import LNB from "@/components/navigation/lnb";
+import ClientLayout from "@/components/layout/client-layout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,7 +41,7 @@ export default function RootLayout({
         >
           <GNB />
           <LNB />
-          <main>{children}</main>
+          <ClientLayout>{children}</ClientLayout>
         </ThemeProvider>
       </body>
     </html>
