@@ -2,12 +2,14 @@
 
 import { FolderGit2, NotebookPen, PanelLeftClose, User } from "lucide-react";
 import CustomButton from "../custom/custom-button";
-import { useSidebarExpanded } from "@/hooks/use-sidebar-expanded";
 import SidebarToggleButton from "./sidebar-toggle-button";
 import { cn } from "@/lib/utils";
+import { useSidebarExpandedStore } from "@/stores/sidebar-expanded-store";
 
 export default function LNB() {
-  const { expanded, setExpanded } = useSidebarExpanded();
+  const expanded = useSidebarExpandedStore((s) => s.expanded);
+  const setExpanded = useSidebarExpandedStore((s) => s.setExpanded);
+  const toggleExpanded = useSidebarExpandedStore((s) => s.toggleExpanded);
 
   /** 초기 expanded가 null일 때 렌더링하지 않음 → 깜빡임 방지 */
   if (expanded === null) return null;
@@ -22,10 +24,7 @@ export default function LNB() {
     >
       {/* 상단 영역 */}
       <div className="flex items-center justify-between p-2">
-        <SidebarToggleButton
-          expanded={expanded}
-          onToggle={(next) => setExpanded(next)}
-        />
+        <SidebarToggleButton expanded={expanded} onToggle={toggleExpanded} />
 
         {/* 열려있을 때만 닫기 버튼 표시 */}
         {expanded && (
