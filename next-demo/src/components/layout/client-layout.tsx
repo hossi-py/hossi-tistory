@@ -18,11 +18,10 @@ export default function ClientLayout({
   return (
     <main
       className={cn(
-        "pt-[var(--height-header)] px-6 transition-all duration-300",
+        "transition-all duration-300",
         expanded
           ? "ml-[var(--width-expanded-lnb)]"
           : "ml-[var(--width-collapsed-lnb)]"
-        //   "sm:ml-0 sm:px-4"
       )}
     >
       <div className="">{children}</div>

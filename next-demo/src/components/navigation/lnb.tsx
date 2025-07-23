@@ -23,8 +23,6 @@ export default function LNB({ className }: { className?: string }) {
         expanded
           ? "[width:var(--width-expanded-lnb)]"
           : "[width:var(--width-collapsed-lnb)]",
-        // TODO "sm:hidden"이 왜 안될까?
-        // "sm:hidden",
         className
       )}
     >
