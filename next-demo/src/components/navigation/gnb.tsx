@@ -1,5 +1,5 @@
-import { ModeToggle } from "../theme/mode-toggle";
+"use client";
 
 export default function GNB() {
-  return <header></header>;
+  return <header className="sticky top-0">{}</header>;
 }

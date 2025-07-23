@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  FolderGit2,
-  Home,
-  NotebookPen,
-  PanelLeftClose,
-  User,
-} from "lucide-react";
+import { FolderGit2, NotebookPen, PanelLeftClose, User } from "lucide-react";
 import CustomButton from "../custom/custom-button";
 import { useSidebarExpanded } from "@/hooks/use-sidebar-expanded";
 import SidebarToggleButton from "./sidebar-toggle-button";
