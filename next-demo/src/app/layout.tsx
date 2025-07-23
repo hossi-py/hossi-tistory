@@ -1,22 +1,12 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 
 import GNB from "@/components/navigation/gnb";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import LNB from "@/components/navigation/lnb";
 import ClientLayout from "@/components/layout/client-layout";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "hossi-portfolio",
@@ -30,18 +20,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={cn("antialiased", "h-screen overflow-hidden")}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <GNB />
-          <LNB />
-          <ClientLayout>{children}</ClientLayout>
+          <div className="grid h-full grid-rows-[auto,1fr] grid-cols-[auto,1fr]">
+            <LNB className="row-span-2" />
+
+            <GNB className="col-start-2 row-start-1" />
+
+            <ClientLayout className="col-start-2 row-start-2 overflow-auto">
+              {children}
+            </ClientLayout>
+          </div>
         </ThemeProvider>
       </body>
     </html>

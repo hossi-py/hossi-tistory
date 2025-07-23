@@ -6,7 +6,7 @@ import SidebarToggleButton from "./sidebar-toggle-button";
 import { cn } from "@/lib/utils";
 import { useSidebarExpandedStore } from "@/stores/sidebar-expanded-store";
 
-export default function LNB() {
+export default function LNB({ className }: { className?: string }) {
   const expanded = useSidebarExpandedStore((s) => s.expanded);
   const isHydrated = useSidebarExpandedStore((s) => s.isHydrated);
   const setExpanded = useSidebarExpandedStore((s) => s.setExpanded);
@@ -18,12 +18,14 @@ export default function LNB() {
   return (
     <aside
       className={cn(
-        "fixed top-0 left-0",
-        "h-screen dark:bg-zinc-900 border-r [border-color:var(--color-navigation-border)]",
-        "flex flex-col transition-all duration-300 ease-in-out",
+        "fixed top-0 left-0 h-full transition-all ease-in-out duration-300 overflow-hidden",
+        "border-r [border-color:var(--color-navigation-border)]",
         expanded
           ? "[width:var(--width-expanded-lnb)]"
-          : "[width:var(--width-collapsed-lnb)]"
+          : "[width:var(--width-collapsed-lnb)]",
+        // TODO "sm:hidden"이 왜 안될까?
+        // "sm:hidden",
+        className
       )}
     >
       {/* 상단 영역 */}

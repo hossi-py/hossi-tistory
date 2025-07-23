@@ -5,24 +5,27 @@ import { useSidebarExpandedStore } from "@/stores/sidebar-expanded-store";
 
 export default function ClientLayout({
   children,
+  className,
 }: {
   children: React.ReactNode;
+  className?: string;
 }) {
   const expanded = useSidebarExpandedStore((s) => s.expanded);
+  const isHydrated = useSidebarExpandedStore((s) => s.isHydrated);
+
+  if (!isHydrated) return null;
 
   return (
     <main
       className={cn(
-        "transition-all duration-300",
+        "pt-[var(--height-header)] px-6 transition-all duration-300",
         expanded
-          ? "ml-[var(--width-expanded-lnb)] w-[calc(100%-var(--width-expanded-lnb))]"
-          : "ml-[var(--width-collapsed-lnb)] w-[calc(100%-var(--width-collapsed-lnb))]"
+          ? "ml-[var(--width-expanded-lnb)]"
+          : "ml-[var(--width-collapsed-lnb)]"
+        //   "sm:ml-0 sm:px-4"
       )}
     >
-      <div>{children}</div>
-      {/* <div className="relative flex max-w-full flex-1 flex-col">
-        <div className="flex items-center justify-center">{children}</div>
-      </div> */}
+      <div className="">{children}</div>
     </main>
   );
 }
