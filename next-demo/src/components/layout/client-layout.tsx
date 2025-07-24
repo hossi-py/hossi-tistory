@@ -16,6 +16,7 @@ export default function ClientLayout({
   return (
     <main
       className={cn(
+        "pt-[var(--height-header)]",
         "transition-all duration-300",
         expanded
           ? "ml-[var(--width-expanded-lnb)]"
