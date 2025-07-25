@@ -5,6 +5,7 @@ import CustomButton from "../custom/custom-button";
 import SidebarToggleButton from "./sidebar-toggle-button";
 import { cn } from "@/lib/utils";
 import { useSidebarExpandedStore } from "@/stores/sidebar-expanded-store";
+import SettingsPopover from "./settings-popover";
 
 export default function LNB() {
   const expanded = useSidebarExpandedStore((s) => s.expanded);
@@ -32,7 +33,7 @@ export default function LNB() {
         {/* 열려있을 때만 닫기 버튼 표시 */}
         {expanded && (
           <CustomButton
-            className="[cursor:ew-resize]"
+            className="cursor-ew-resize"
             size="icon"
             variant="ghost"
             tooltipContent="사이드바 닫기"
@@ -79,6 +80,9 @@ export default function LNB() {
           variant="ghost"
           expanded={expanded}
         />
+
+        {/* 설정 */}
+        <SettingsPopover className="absolute bottom-0 mb-3" />
       </nav>
     </aside>
   );

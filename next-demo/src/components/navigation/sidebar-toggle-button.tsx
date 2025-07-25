@@ -39,8 +39,8 @@ export default function SidebarToggleButton({
       size="icon"
       variant="ghost"
       className={cn(
-        "[cursor:pointer]",
-        !expanded && isHovered && "[cursor:ew-resize]"
+        "cursor-pointer",
+        !expanded && isHovered && "cursor-ew-resize"
       )}
       aria-label={ariaLabel}
       aria-expanded={expanded}
