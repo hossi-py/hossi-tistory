@@ -39,7 +39,11 @@ export default function SettingsPopover({ className }: { className?: string }) {
               <ViewTypeToggle />
             </div>
             <div className="">
-              <Button className="cursor-pointer" variant="outline">
+              <Button
+                onClick={() => (window.location.hash = "#settings")}
+                className="cursor-pointer"
+                variant="outline"
+              >
                 기능 테스트 모드
                 <TestTubeDiagonal />
               </Button>
