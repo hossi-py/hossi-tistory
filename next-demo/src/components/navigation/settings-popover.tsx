@@ -1,6 +1,6 @@
 "use client";
 
-import { Settings, TestTubeDiagonal } from "lucide-react";
+import { Settings } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -44,8 +44,7 @@ export default function SettingsPopover({ className }: { className?: string }) {
                 className="cursor-pointer"
                 variant="outline"
               >
-                기능 테스트 모드
-                <TestTubeDiagonal />
+                실험실
               </Button>
             </div>
           </div>

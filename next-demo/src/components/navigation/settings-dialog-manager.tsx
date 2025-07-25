@@ -8,9 +8,27 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
+import { Palette, Pointer, Zap } from "lucide-react";
 
 export default function SettingsDialogManager() {
   const [open, setOpen] = useState<boolean>(false);
+
+  const labItems = [
+    {
+      icon: Palette,
+      title: "배경 애니메이션",
+      description: "테마에 따라\n배경 애니메이션이 적용됩니다.",
+    },
+    { icon: Pointer, title: "커스텀 커서", description: "" },
+    { icon: Zap, title: "스크롤 애니메이션", description: "" },
+  ];
 
   useEffect(() => {
     const check = () => setOpen(window.location.hash === "#settings");
@@ -27,15 +45,30 @@ export default function SettingsDialogManager() {
         setOpen(o);
       }}
     >
-      <DialogContent>
+      <DialogContent className="w-full !max-w-2/5">
         <DialogHeader>
           <DialogTitle>실험실</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            다양한 기능을 체험해보세요. 클릭하면 활성화됩니다.
           </DialogDescription>
         </DialogHeader>
-        <div></div>
+        <div className="grid grid-cols-2 gap-6">
+          {labItems.map(({ icon: Icon, title, description }) => (
+            <Card
+              className="w-full hover:shadow-lg transition-shadow"
+              key={title}
+            >
+              <CardHeader className="flex flex-col items-center">
+                <Icon className="mb-3 text-primary" />
+                <CardTitle>{title}</CardTitle>
+                <CardDescription className="text-center text-sm mt-1 whitespace-pre-line">
+                  {description}
+                </CardDescription>
+                <CardAction></CardAction>
+              </CardHeader>
+            </Card>
+          ))}
+        </div>
       </DialogContent>
     </Dialog>
   );
