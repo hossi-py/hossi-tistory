@@ -124,3 +124,53 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .rainbow-frame {
+    @apply relative inline-block rounded-lg z-0;
+    padding: var(--rf-outline, 1px);
+  }
+
+  .rainbow-frame::before,
+  .rainbow-frame::after {
+    content: "";
+    position: absolute;
+    left: calc(-1 * var(--rf-outline, 1px));
+    top: calc(-1 * var(--rf-outline, 1px));
+    width: calc(100% + calc(var(--rf-outline, 1px) * 2));
+    height: calc(100% + calc(var(--rf-outline, 1px) * 2));
+    background: linear-gradient(
+      45deg,
+      #fb0094,
+      #0000ff,
+      #00ff00,
+      #ffff00,
+      #ff0000,
+      #fb0094,
+      #0000ff,
+      #00ff00,
+      #ffff00,
+      #ff0000
+    );
+    background-size: 400%;
+    z-index: -1;
+    border-radius: inherit;
+    animation: rainbowFlow 20s linear infinite;
+  }
+
+  .rainbow-frame::after {
+    filter: blur(var(--rf-blur, 20px));
+  }
+
+  @keyframes rainbowFlow {
+    0% {
+      background-position: 0 0;
+    }
+    50% {
+      background-position: 400% 0;
+    }
+    100% {
+      background-position: 0 0;
+    }
+  }
+}

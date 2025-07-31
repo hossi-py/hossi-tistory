@@ -16,6 +16,7 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Palette, Pointer, Zap } from "lucide-react";
+import RainbowFrame from "../custom/rainbow-frame";
 
 export default function SettingsDialogManager() {
   const [open, setOpen] = useState<boolean>(false);
@@ -54,19 +55,21 @@ export default function SettingsDialogManager() {
         </DialogHeader>
         <div className="grid grid-cols-2 gap-6">
           {labItems.map(({ icon: Icon, title, description }) => (
-            <Card
-              className="w-full hover:shadow-lg transition-shadow"
-              key={title}
-            >
-              <CardHeader className="flex flex-col items-center">
-                <Icon className="mb-3 text-primary" />
-                <CardTitle>{title}</CardTitle>
-                <CardDescription className="text-center text-sm mt-1 whitespace-pre-line">
-                  {description}
-                </CardDescription>
-                <CardAction></CardAction>
-              </CardHeader>
-            </Card>
+            <RainbowFrame blur={12}>
+              <Card
+                className="w-full h-full hover:shadow-lg transition-shadow"
+                key={title}
+              >
+                <CardHeader className="flex flex-col items-center">
+                  <Icon className="mb-3 text-primary" />
+                  <CardTitle>{title}</CardTitle>
+                  <CardDescription className="text-center text-sm mt-1 whitespace-pre-line">
+                    {description}
+                  </CardDescription>
+                  <CardAction></CardAction>
+                </CardHeader>
+              </Card>
+            </RainbowFrame>
           ))}
         </div>
       </DialogContent>
