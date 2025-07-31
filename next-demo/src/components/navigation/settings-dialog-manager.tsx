@@ -17,20 +17,31 @@ import {
 } from "../ui/card";
 import { Palette, Pointer, Zap } from "lucide-react";
 import RainbowFrame from "../custom/rainbow-frame";
+import { useSettingsStore } from "@/stores/settings-store";
 
 export default function SettingsDialogManager() {
   const [open, setOpen] = useState<boolean>(false);
 
-  const [labItems, setLabItems] = useState([
+  const labItems = [
     {
       icon: Palette,
       title: "배경 애니메이션",
       description: "테마에 따라\n배경 애니메이션이 적용됩니다.",
-      active: false,
+      key: "bgAnimation",
     },
-    { icon: Pointer, title: "커스텀 커서", description: "", active: false },
-    { icon: Zap, title: "스크롤 애니메이션", description: "", active: false },
-  ]);
+    {
+      icon: Pointer,
+      title: "커스텀 커서",
+      description: "",
+      key: "customCursor",
+    },
+    {
+      icon: Zap,
+      title: "스크롤 애니메이션",
+      description: "",
+      key: "scrollAnimation",
+    },
+  ] as const;
 
   useEffect(() => {
     const check = () => setOpen(window.location.hash === "#settings");
@@ -38,14 +49,6 @@ export default function SettingsDialogManager() {
     window.addEventListener("hashchange", check);
     return () => window.removeEventListener("hashchange", check);
   }, []);
-
-  const toggleItem = (index: number) => {
-    setLabItems((prev) =>
-      prev.map((item, i) =>
-        i === index ? { ...item, active: !item.active } : item
-      )
-    );
-  };
 
   return (
     <Dialog
@@ -63,24 +66,28 @@ export default function SettingsDialogManager() {
           </DialogDescription>
         </DialogHeader>
         <div className="grid grid-cols-2 gap-6">
-          {labItems.map(({ icon: Icon, title, description, active }, index) => (
-            <RainbowFrame active={active} blur={12}>
-              <Card
-                className="w-full h-full hover:shadow-lg transition-shadow cursor-pointer"
-                key={title}
-                onClick={() => toggleItem(index)}
-              >
-                <CardHeader className="flex flex-col items-center">
-                  <Icon className="mb-3 text-primary" />
-                  <CardTitle>{title}</CardTitle>
-                  <CardDescription className="text-center text-sm mt-1 whitespace-pre-line">
-                    {description}
-                  </CardDescription>
-                  <CardAction></CardAction>
-                </CardHeader>
-              </Card>
-            </RainbowFrame>
-          ))}
+          {labItems.map(({ icon: Icon, title, description, key }) => {
+            const isActive = useSettingsStore((s) => s[key]);
+            const toggle = useSettingsStore((s) => s.toggle);
+
+            return (
+              <RainbowFrame active={isActive} blur={12} key={key}>
+                <Card
+                  className="w-full h-full hover:shadow-lg transition-shadow cursor-pointer"
+                  onClick={() => toggle(key)}
+                >
+                  <CardHeader className="flex flex-col items-center">
+                    <Icon className="mb-3 text-primary" />
+                    <CardTitle>{title}</CardTitle>
+                    <CardDescription className="text-center text-sm mt-1 whitespace-pre-line">
+                      {description}
+                    </CardDescription>
+                    <CardAction></CardAction>
+                  </CardHeader>
+                </Card>
+              </RainbowFrame>
+            );
+          })}
         </div>
       </DialogContent>
     </Dialog>
