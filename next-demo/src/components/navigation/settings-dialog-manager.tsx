@@ -21,15 +21,16 @@ import RainbowFrame from "../custom/rainbow-frame";
 export default function SettingsDialogManager() {
   const [open, setOpen] = useState<boolean>(false);
 
-  const labItems = [
+  const [labItems, setLabItems] = useState([
     {
       icon: Palette,
       title: "배경 애니메이션",
       description: "테마에 따라\n배경 애니메이션이 적용됩니다.",
+      active: false,
     },
-    { icon: Pointer, title: "커스텀 커서", description: "" },
-    { icon: Zap, title: "스크롤 애니메이션", description: "" },
-  ];
+    { icon: Pointer, title: "커스텀 커서", description: "", active: false },
+    { icon: Zap, title: "스크롤 애니메이션", description: "", active: false },
+  ]);
 
   useEffect(() => {
     const check = () => setOpen(window.location.hash === "#settings");
@@ -37,6 +38,14 @@ export default function SettingsDialogManager() {
     window.addEventListener("hashchange", check);
     return () => window.removeEventListener("hashchange", check);
   }, []);
+
+  const toggleItem = (index: number) => {
+    setLabItems((prev) =>
+      prev.map((item, i) =>
+        i === index ? { ...item, active: !item.active } : item
+      )
+    );
+  };
 
   return (
     <Dialog
@@ -54,11 +63,12 @@ export default function SettingsDialogManager() {
           </DialogDescription>
         </DialogHeader>
         <div className="grid grid-cols-2 gap-6">
-          {labItems.map(({ icon: Icon, title, description }) => (
-            <RainbowFrame blur={12}>
+          {labItems.map(({ icon: Icon, title, description, active }, index) => (
+            <RainbowFrame active={active} blur={12}>
               <Card
-                className="w-full h-full hover:shadow-lg transition-shadow"
+                className="w-full h-full hover:shadow-lg transition-shadow cursor-pointer"
                 key={title}
+                onClick={() => toggleItem(index)}
               >
                 <CardHeader className="flex flex-col items-center">
                   <Icon className="mb-3 text-primary" />

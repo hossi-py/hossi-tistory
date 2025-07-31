@@ -158,6 +158,11 @@
     animation: rainbowFlow 20s linear infinite;
   }
 
+  .rainbow-frame:not(.animate-visible)::before,
+  .rainbow-frame:not(.animate-visible)::after {
+    display: none;
+  }
+
   .rainbow-frame::after {
     filter: blur(var(--rf-blur, 20px));
   }
