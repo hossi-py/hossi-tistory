@@ -4,10 +4,10 @@ import type { Metadata } from "next";
 
 import GNB from "@/components/navigation/gnb";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import LNB from "@/components/navigation/lnb";
 import ClientLayout from "@/components/layout/client-layout";
 import { cn } from "@/lib/utils";
 import SettingsDialogManager from "@/components/navigation/settings-dialog-manager";
+import LNBWrapper from "@/components/navigation/lnb-wrapper";
 
 export const metadata: Metadata = {
   title: "hossi-portfolio",
@@ -29,7 +29,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div>
-            <LNB />
+            <LNBWrapper />
             <GNB />
             <ClientLayout>{children}</ClientLayout>
             <SettingsDialogManager />

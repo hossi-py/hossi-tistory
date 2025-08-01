@@ -1,0 +1,34 @@
+"use client";
+
+import { useSidebarExpandedStore } from "@/stores/sidebar-expanded-store";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "../ui/drawer";
+import LNBContent from "./lnb-content";
+import { Button } from "../ui/button";
+import { Heading, X } from "lucide-react";
+
+export default function LNBMobileDrawer() {
+  const expanded = useSidebarExpandedStore((s) => s.expanded);
+  const setExpanded = useSidebarExpandedStore((s) => s.setExpanded);
+  const toggleExpanded = useSidebarExpandedStore((s) => s.toggleExpanded);
+
+  return (
+    <div className="md:hidden">
+      <Drawer open={expanded} onOpenChange={setExpanded} direction="left">
+        <DrawerContent className="![width:var(--width-expanded-lnb)]">
+          <DrawerHeader className="p-0">
+            <DrawerTitle className="flex items-center justify-between p-2">
+              <Button className="cursor-pointer" variant="ghost" size="icon">
+                <Heading />
+              </Button>
+              <Button className="cursor-pointer" variant="ghost" size="icon">
+                <X style={{ width: "20px", height: "20px" }} />
+              </Button>
+            </DrawerTitle>
+          </DrawerHeader>
+
+          <LNBContent expanded={expanded} />
+        </DrawerContent>
+      </Drawer>
+    </div>
+  );
+}

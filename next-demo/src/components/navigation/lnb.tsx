@@ -1,11 +1,11 @@
 "use client";
 
-import { FolderGit2, NotebookPen, PanelLeftClose, User } from "lucide-react";
+import { PanelLeftClose } from "lucide-react";
 import CustomButton from "../custom/custom-button";
 import SidebarToggleButton from "./sidebar-toggle-button";
 import { cn } from "@/lib/utils";
 import { useSidebarExpandedStore } from "@/stores/sidebar-expanded-store";
-import SettingsPopover from "./settings-popover";
+import LNBContent from "./lnb-content";
 
 export default function LNB() {
   const expanded = useSidebarExpandedStore((s) => s.expanded);
@@ -19,6 +19,7 @@ export default function LNB() {
   return (
     <aside
       className={cn(
+        "hidden md:block", // pc 전용
         "fixed top-0 left-0 h-full transition-all ease-in-out duration-300 overflow-hidden",
         "border-r [border-color:var(--color-navigation-border)]",
         expanded
@@ -45,45 +46,7 @@ export default function LNB() {
         )}
       </div>
 
-      {/* 메뉴 */}
-      <nav className="flex flex-col px-2 mt-2">
-        <CustomButton
-          className={cn(
-            "cursor-pointer",
-            expanded && "justify-baseline pl-2.5"
-          )}
-          icon={<User />}
-          label="소개"
-          tooltipContent={expanded ? "" : "소개"}
-          variant="ghost"
-          expanded={expanded}
-        />
-        <CustomButton
-          className={cn(
-            "cursor-pointer",
-            expanded && "justify-baseline pl-2.5"
-          )}
-          icon={<FolderGit2 />}
-          label="프로젝트"
-          tooltipContent={expanded ? "" : "프로젝트"}
-          variant="ghost"
-          expanded={expanded}
-        />
-        <CustomButton
-          className={cn(
-            "cursor-pointer",
-            expanded && "justify-baseline pl-2.5"
-          )}
-          icon={<NotebookPen />}
-          label="기술 블로그"
-          tooltipContent={expanded ? "" : "기술 블로그"}
-          variant="ghost"
-          expanded={expanded}
-        />
-
-        {/* 설정 */}
-        <SettingsPopover className="absolute bottom-0 mb-3" />
-      </nav>
+      <LNBContent expanded={expanded} />
     </aside>
   );
 }
