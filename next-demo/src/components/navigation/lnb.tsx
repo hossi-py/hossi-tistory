@@ -19,7 +19,6 @@ export default function LNB() {
   return (
     <aside
       className={cn(
-        "hidden md:block", // pc 전용
         "fixed top-0 left-0 h-full transition-all ease-in-out duration-300 overflow-hidden",
         "border-r [border-color:var(--color-navigation-border)]",
         expanded

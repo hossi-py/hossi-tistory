@@ -1,3 +1,4 @@
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Button, type buttonVariants } from "../ui/button";
 import {
   Tooltip,
@@ -28,6 +29,7 @@ export default function CustomButton({
   size,
   ...buttonProps
 }: any) {
+  const isMobile = useIsMobile();
   const buttonSize = !expanded && icon ? "icon" : size;
 
   const button = (
@@ -41,7 +43,7 @@ export default function CustomButton({
     </Button>
   );
 
-  if (!tooltipContent) return button;
+  if (isMobile || !tooltipContent) return button;
 
   return (
     <TooltipProvider>
