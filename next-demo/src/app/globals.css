@@ -152,7 +152,7 @@
       #ffff00,
       #ff0000
     );
-    background-size: 400%;
+    background-size: 200%;
     z-index: -1;
     border-radius: inherit;
     animation: rainbowFlow 20s linear infinite;
@@ -164,7 +164,9 @@
   }
 
   .rainbow-frame::after {
-    filter: blur(var(--rf-blur, 20px));
+    /* filter: blur(var(--rf-blur, 20px)); */
+    box-shadow: 0 0 var(--rf-blur, 20px);
+    opacity: 0.4;
   }
 
   @keyframes rainbowFlow {
