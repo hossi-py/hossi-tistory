@@ -65,7 +65,7 @@ export default function SettingsDialogManager() {
             다양한 기능을 체험해보세요. 클릭하면 활성화됩니다.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-6">
           {labItems.map(({ icon: Icon, title, description, key }) => {
             const isActive = useSettingsStore((s) => s[key]);
             const toggle = useSettingsStore((s) => s.toggle);
