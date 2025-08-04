@@ -129,6 +129,9 @@
   .rainbow-frame {
     @apply relative inline-block rounded-lg z-0;
     padding: var(--rf-outline, 1px);
+
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   .rainbow-frame::before,
@@ -156,6 +159,7 @@
     z-index: -1;
     border-radius: inherit;
     animation: rainbowFlow 20s linear infinite;
+    will-change: background-position, opacity;
   }
 
   .rainbow-frame:not(.animate-visible)::before,
