@@ -58,7 +58,7 @@ export default function SettingsDialogManager() {
         setOpen(o);
       }}
     >
-      <DialogContent className="w-full !max-w-2/5">
+      <DialogContent className="w-[90vw] sm:w-[80vw] md:!max-w-2xl lg:!max-w-2/5">
         <DialogHeader>
           <DialogTitle>실험실</DialogTitle>
           <DialogDescription>
