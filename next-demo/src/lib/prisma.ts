@@ -2,15 +2,12 @@
  * Next.js 개발 모드에서 핫 리로딩 문제 해결
  */
 
-import { PrismaClient } from "@/generated/prisma";
+import { PrismaClient } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
-const globalForPrisma = global as unknown as {
-  prisma: PrismaClient;
-};
+const prisma = new PrismaClient().$extends(withAccelerate());
 
-const prisma =
-  globalForPrisma.prisma || new PrismaClient().$extends(withAccelerate());
+const globalForPrisma = global as unknown as { prisma: typeof prisma };
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
