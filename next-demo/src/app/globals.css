@@ -135,10 +135,10 @@
   .rainbow-frame::after {
     content: "";
     position: absolute;
-    left: calc(-1 * var(--rf-outline, 1px));
-    top: calc(-1 * var(--rf-outline, 1px));
-    width: calc(100% + calc(var(--rf-outline, 1px) * 2));
-    height: calc(100% + calc(var(--rf-outline, 1px) * 2));
+    left: calc(-1 * (var(--rf-outline) + var(--rf-blur)));
+    top: calc(-1 * (var(--rf-outline) + var(--rf-blur)));
+    width: calc(100% + (var(--rf-outline) + var(--rf-blur)) * 2);
+    height: calc(100% + (var(--rf-outline) + var(--rf-blur)) * 2);
     background: linear-gradient(
       45deg,
       #fb0094,
@@ -166,7 +166,6 @@
     opacity: 1;
     transition: opacity 0.3s ease;
 
-    /* transform: translateZ(0); */
     will-change: background-position, filter;
   }
 

@@ -71,7 +71,7 @@ export default function SettingsDialogManager() {
             const toggle = useSettingsStore((s) => s.toggle);
 
             return (
-              <RainbowFrame active={isActive} blur={6} key={key}>
+              <RainbowFrame active={isActive} blur={3} key={key}>
                 <Card
                   className="w-full h-full hover:shadow-lg transition-shadow cursor-pointer"
                   onClick={() => toggle(key)}
