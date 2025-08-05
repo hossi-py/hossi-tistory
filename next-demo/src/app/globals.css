@@ -155,26 +155,26 @@
     background-size: 200% auto;
     z-index: -1;
     border-radius: inherit;
+
     -webkit-animation: rainbowFlow 20s linear infinite;
     animation: rainbowFlow 20s linear infinite;
     -webkit-filter: blur(var(--rf-blur, 20px));
     filter: blur(var(--rf-blur, 20px));
-    will-change: background-position, filter;
+
+    opacity: 1;
+    transition: opacity 0.3s ease;
+
     transform: translateZ(0);
+    will-change: background-position, filter;
   }
 
   .rainbow-frame:not(.animate-visible)::before,
   .rainbow-frame:not(.animate-visible)::after {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
   }
 
-  .rainbow-frame::after {
-    -webkit-filter: blur(var(--rf-blur, 20px));
-    filter: blur(var(--rf-blur, 20px));
-    will-change: background-position, filter;
-    transform: translateZ(0);
-  }
-
+  /* keyframes */
   @-webkit-keyframes rainbowFlow {
     0% {
       background-position: 0% 0;
