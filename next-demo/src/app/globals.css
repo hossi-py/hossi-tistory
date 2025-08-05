@@ -160,11 +160,13 @@
     animation: rainbowFlow 20s linear infinite;
     -webkit-filter: blur(var(--rf-blur, 20px));
     filter: blur(var(--rf-blur, 20px));
+    transform: translate3D(0, 0, 0);
+    -webkit-transform: translate3D(0, 0, 0);
 
     opacity: 1;
     transition: opacity 0.3s ease;
 
-    transform: translateZ(0);
+    /* transform: translateZ(0); */
     will-change: background-position, filter;
   }
 
