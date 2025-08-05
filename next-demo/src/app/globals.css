@@ -129,9 +129,6 @@
   .rainbow-frame {
     @apply relative inline-block rounded-lg z-0;
     padding: var(--rf-outline, 1px);
-
-    will-change: transform;
-    transform: translateZ(0);
   }
 
   .rainbow-frame::before,
@@ -155,11 +152,15 @@
       #ffff00,
       #ff0000
     );
-    background-size: 200%;
+    background-size: 200% auto;
     z-index: -1;
     border-radius: inherit;
+    -webkit-animation: rainbowFlow 20s linear infinite;
     animation: rainbowFlow 20s linear infinite;
-    will-change: background-position, opacity;
+    -webkit-filter: blur(var(--rf-blur, 20px));
+    filter: blur(var(--rf-blur, 20px));
+    will-change: background-position, filter;
+    transform: translateZ(0);
   }
 
   .rainbow-frame:not(.animate-visible)::before,
@@ -168,20 +169,32 @@
   }
 
   .rainbow-frame::after {
-    /* filter: blur(var(--rf-blur, 20px)); */
-    box-shadow: 0 0 var(--rf-blur, 20px);
-    opacity: 0.4;
+    -webkit-filter: blur(var(--rf-blur, 20px));
+    filter: blur(var(--rf-blur, 20px));
+    will-change: background-position, filter;
+    transform: translateZ(0);
   }
 
-  @keyframes rainbowFlow {
+  @-webkit-keyframes rainbowFlow {
     0% {
-      background-position: 0 0;
+      background-position: 0% 0;
     }
     50% {
-      background-position: 400% 0;
+      background-position: 100% 0;
     }
     100% {
-      background-position: 0 0;
+      background-position: 0% 0;
+    }
+  }
+  @keyframes rainbowFlow {
+    0% {
+      background-position: 0% 0;
+    }
+    50% {
+      background-position: 100% 0;
+    }
+    100% {
+      background-position: 0% 0;
     }
   }
 }
