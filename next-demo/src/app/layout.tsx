@@ -9,6 +9,7 @@ import SettingsDialogManager from "@/components/navigation/settings-dialog-manag
 import LNBWrapper from "@/components/navigation/lnb-wrapper";
 import GNBWrapper from "@/components/navigation/gnb-wrapper";
 import { SWRProvider } from "./swr-provider";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "hossi-portfolio",
@@ -23,21 +24,23 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn("antialiased")}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div>
-            <LNBWrapper />
-            <GNBWrapper />
-            <ClientLayout>
-              <SWRProvider>{children}</SWRProvider>
-            </ClientLayout>
-            <SettingsDialogManager />
-          </div>
-        </ThemeProvider>
+        <Suspense fallback={<div>loading...</div>}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div>
+              <LNBWrapper />
+              <GNBWrapper />
+              <ClientLayout>
+                <SWRProvider>{children}</SWRProvider>
+              </ClientLayout>
+              <SettingsDialogManager />
+            </div>
+          </ThemeProvider>
+        </Suspense>
       </body>
     </html>
   );

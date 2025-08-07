@@ -7,6 +7,7 @@ export const SWRProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         fetcher: (resource, init) =>
           fetch(resource, init).then((res) => res.json()),
+        suspense: true,
       }}
     >
       {children}
