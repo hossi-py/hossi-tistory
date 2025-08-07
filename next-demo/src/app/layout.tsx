@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import SettingsDialogManager from "@/components/navigation/settings-dialog-manager";
 import LNBWrapper from "@/components/navigation/lnb-wrapper";
 import GNBWrapper from "@/components/navigation/gnb-wrapper";
+import { SWRProvider } from "./swr-provider";
 
 export const metadata: Metadata = {
   title: "hossi-portfolio",
@@ -31,7 +32,9 @@ export default function RootLayout({
           <div>
             <LNBWrapper />
             <GNBWrapper />
-            <ClientLayout>{children}</ClientLayout>
+            <ClientLayout>
+              <SWRProvider>{children}</SWRProvider>
+            </ClientLayout>
             <SettingsDialogManager />
           </div>
         </ThemeProvider>
