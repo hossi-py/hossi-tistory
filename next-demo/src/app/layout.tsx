@@ -10,6 +10,7 @@ import LNBWrapper from "@/components/navigation/lnb-wrapper";
 import GNBWrapper from "@/components/navigation/gnb-wrapper";
 import { SWRProvider } from "./swr-provider";
 import { Suspense } from "react";
+import { Spinner } from "@/components/custom/spinner";
 
 export const metadata: Metadata = {
   title: "hossi-portfolio",
@@ -24,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn("antialiased")}>
-        <Suspense fallback={<div>loading...</div>}>
+        <Suspense fallback={<Spinner fullScreen />}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
