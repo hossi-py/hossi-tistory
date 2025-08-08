@@ -1,5 +1,6 @@
 "use client";
 
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useSidebarExpandedStore } from "@/stores/sidebar-expanded-store";
 
@@ -10,20 +11,22 @@ export default function ClientLayout({
 }) {
   const expanded = useSidebarExpandedStore((s) => s.expanded);
   const isHydrated = useSidebarExpandedStore((s) => s.isHydrated);
+  const isMobile = useIsMobile();
 
   if (!isHydrated) return null;
 
   return (
     <main
       className={cn(
+        isMobile ? "!m-0" : "",
         "pt-[var(--height-header)]",
         "transition-all duration-300",
-        expanded
+        expanded && !isMobile
           ? "ml-[var(--width-expanded-lnb)]"
           : "ml-[var(--width-collapsed-lnb)]"
       )}
     >
-      <div className="px-30 max-w-full break-words">{children}</div>
+      {children}
     </main>
   );
 }
