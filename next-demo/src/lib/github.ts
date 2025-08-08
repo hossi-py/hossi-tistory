@@ -11,6 +11,7 @@ export async function githubFetch<T>(endpoint: string): Promise<T> {
       Accept: "application/vnd.github.v3+json",
       "X-GitHub-Api-Version": "2022-11-28",
     },
+    cache: "no-store",
   });
 
   if (!response.ok) {

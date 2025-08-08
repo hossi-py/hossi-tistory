@@ -18,9 +18,10 @@ export default function ClientLayout({
   return (
     <main
       className={cn(
-        isMobile ? "!m-0" : "",
         "pt-[var(--height-header)]",
+        "h-full flex flex-col",
         "transition-all duration-300",
+        isMobile ? "!m-0" : "",
         expanded && !isMobile
           ? "ml-[var(--width-expanded-lnb)]"
           : "ml-[var(--width-collapsed-lnb)]"
