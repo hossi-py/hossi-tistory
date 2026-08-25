@@ -26,6 +26,19 @@ export interface ProjectDetail {
   competency: string;
 }
 
+/**
+ * 케이스 스터디에 붙일 화면 이미지.
+ * 파일은 next-app/public/projects/<id>/ 아래에 두고 src 는 '/projects/<id>/파일명' 으로 적는다.
+ * 비워 두면 갤러리 영역 자체가 렌더되지 않는다.
+ */
+export interface ProjectScreenshot {
+  src: string;
+  alt: string;
+  caption?: string;
+  width: number;
+  height: number;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -38,6 +51,7 @@ export interface Project {
   github?: string;
   deployUrl?: string;
   category: 'company' | 'personal';
+  screenshots?: ProjectScreenshot[];
   detail: ProjectDetail;
 }
 

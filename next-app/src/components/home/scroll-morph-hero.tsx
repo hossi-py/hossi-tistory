@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { KOREA_VIEW_BOX, koreaPaths } from "@/lib/logo/geometry";
+import { VISIBLE_SECTIONS } from "@/lib/sections";
 import {
   buildWordmarkPoints,
   createParticleSeeds,
@@ -44,6 +45,7 @@ export default function ScrollMorphHero() {
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const spriteRef = useRef<HTMLCanvasElement | null>(null);
   const progressRef = useRef(0);
+  const isCanvasClearedRef = useRef(false);
   const reduceMotion = useReducedMotion();
   const isFirefox = useMemo(
     () => typeof navigator !== "undefined" && /firefox/i.test(navigator.userAgent),
@@ -214,6 +216,17 @@ export default function ScrollMorphHero() {
 
     const width = Math.max(1, Math.floor(stageSize.width));
     const height = Math.max(1, Math.floor(stageSize.height));
+
+    // 히어로를 지나가면 파티클은 이미 보이지 않는다. 본문을 보는 내내 계산을 돌릴 이유가 없다.
+    if (progressRef.current >= 1) {
+      if (!isCanvasClearedRef.current) {
+        context.clearRect(0, 0, width, height);
+        isCanvasClearedRef.current = true;
+      }
+      return;
+    }
+
+    isCanvasClearedRef.current = false;
     context.clearRect(0, 0, width, height);
 
     const frame = getParticleFrame(progressRef.current, sourcePoints, targetPoints, seeds);
@@ -263,17 +276,17 @@ export default function ScrollMorphHero() {
 
   if (reduceMotion) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-10 bg-black px-6 py-16 text-white">
+      <div className="flex min-h-svh flex-col items-center justify-center gap-10 px-6 py-16">
         <KoreaMap className="h-full max-h-[60svh] w-full max-w-xl" />
         <div className="text-center font-sans text-[clamp(2.75rem,10vw,7.5rem)] font-bold lowercase tracking-[-0.08em] text-white">
           yoonho.dev
         </div>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="relative bg-black text-white">
+    <>
       <div className="fixed inset-0 z-0 flex h-svh items-center justify-center overflow-hidden bg-black">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.08),_transparent_42%),linear-gradient(180deg,_#0a0a0a_0%,_#000_55%,_#000_100%)]" />
 
@@ -300,27 +313,26 @@ export default function ScrollMorphHero() {
                 Portfolio
               </DropdownMenuLabel>
               <DropdownMenuGroup>
-                <DropdownMenuItem onSelect={(event) => event.preventDefault()} className="rounded-xl px-2 py-2 text-white/90 focus:bg-white/8 focus:text-white">
-                  Home
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={(event) => event.preventDefault()} className="rounded-xl px-2 py-2 text-white/90 focus:bg-white/8 focus:text-white">
-                  About
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={(event) => event.preventDefault()} className="rounded-xl px-2 py-2 text-white/90 focus:bg-white/8 focus:text-white">
-                  Projects
-                </DropdownMenuItem>
+                {VISIBLE_SECTIONS.map((item) => (
+                  <DropdownMenuItem
+                    key={item.id}
+                    asChild
+                    className="rounded-xl px-2 py-2 text-white/90 focus:bg-white/8 focus:text-white"
+                  >
+                    <a href={`#${item.id}`}>{item.label}</a>
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuGroup>
 
               <DropdownMenuSeparator className="bg-white/10" />
 
-              <DropdownMenuItem onSelect={(event) => event.preventDefault()} className="rounded-xl px-2 py-2 text-white/90 focus:bg-white/8 focus:text-white">
-                Lab
-              </DropdownMenuItem>
-
-              <DropdownMenuSeparator className="bg-white/10" />
-
-              <DropdownMenuItem onSelect={(event) => event.preventDefault()} className="rounded-xl px-2 py-2 text-white/90 focus:bg-white/8 focus:text-white">
-                Contact
+              <DropdownMenuItem
+                asChild
+                className="rounded-xl px-2 py-2 text-white/90 focus:bg-white/8 focus:text-white"
+              >
+                <a href="https://github.com/hossi-py" target="_blank" rel="noreferrer">
+                  GitHub
+                </a>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -382,8 +394,8 @@ export default function ScrollMorphHero() {
 
       <section
         ref={sectionRef}
-        className="pointer-events-none relative z-10 h-[220svh] bg-transparent md:h-[300svh]"
+        className="pointer-events-none relative z-10 h-[165svh] bg-transparent md:h-[300svh]"
       />
-    </main>
+    </>
   );
 }
