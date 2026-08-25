@@ -39,7 +39,7 @@ function resizePoints(points: Point[], count: number): Point[] {
   });
 }
 
-export function sampleSvgPathToStage(
+function sampleSvgPathToStage(
   pathData: string,
   count: number,
   viewBox: { minX: number; minY: number; width: number; height: number },
@@ -135,8 +135,7 @@ export function getParticleFrame(
   progress: number,
   source: Point[],
   target: Point[],
-  seeds: ParticleSeed[],
-  viewport: { width: number; height: number }
+  seeds: ParticleSeed[]
 ) {
   const clamped = Math.min(Math.max(progress, 0), 1);
   const particleReveal =
@@ -182,12 +181,5 @@ export function getParticleFrame(
     };
   });
 
-  return {
-    particles,
-    lineOpacity: clamped < 0.34 ? 1 - clamped / 0.34 : 0,
-    wordOpacity: clamped < 0.72 ? 0 : Math.min(1, (clamped - 0.72) / 0.18),
-    hintOpacity: clamped < 0.08 ? 0.8 : clamped < 0.3 ? 1 - (clamped - 0.08) / 0.22 : 0,
-    centerX: viewport.width / 2,
-    centerY: viewport.height / 2,
-  };
+  return { particles };
 }

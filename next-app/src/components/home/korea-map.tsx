@@ -12,6 +12,7 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 import {
   KOREA_VIEW_BOX,
   dokdoEastPath,
@@ -68,20 +69,7 @@ function OutlinePath({
 
 export default function KoreaMap({ className = "" }: KoreaMapProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const updateViewport = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    updateViewport();
-    window.addEventListener("resize", updateViewport);
-
-    return () => {
-      window.removeEventListener("resize", updateViewport);
-    };
-  }, []);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!isOpen) {

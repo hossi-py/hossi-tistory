@@ -8,7 +8,7 @@ import {
 import { Menu } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import KoreaMap from "@/components/KoreaMap";
+import KoreaMap from "@/components/home/korea-map";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -19,16 +19,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 import { KOREA_VIEW_BOX, koreaPaths } from "@/lib/logo/geometry";
 import {
   buildWordmarkPoints,
   createParticleSeeds,
   getParticleFrame,
   sampleSvgPathsToStage,
+  type Point,
 } from "@/lib/logo/particles";
 
-const PARTICLE_COUNT = 960;
 const PROGRESS_BUCKETS = 120;
+const EMPTY_POINTS: Point[] = [];
 
 type StageSize = {
   width: number;
@@ -49,12 +51,9 @@ export default function ScrollMorphHero() {
   );
 
   const [displayProgress, setDisplayProgress] = useState(0);
-  const [viewportWidth, setViewportWidth] = useState(0);
   const [stageSize, setStageSize] = useState<StageSize>({ width: 0, height: 0 });
-  const [sourcePoints, setSourcePoints] = useState<{ x: number; y: number }[]>([]);
-  const [targetPoints, setTargetPoints] = useState<{ x: number; y: number }[]>([]);
 
-  const isMobileViewport = viewportWidth > 0 && viewportWidth < 768;
+  const isMobileViewport = useIsMobile();
   const effectiveParticleCount = isMobileViewport
     ? isFirefox
       ? 140
@@ -95,14 +94,9 @@ export default function ScrollMorphHero() {
       });
     };
 
-    const updateViewportWidth = () => {
-      setViewportWidth(window.innerWidth);
-      updateProgress();
-    };
-
-    updateViewportWidth();
+    updateProgress();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", updateViewportWidth);
+    window.addEventListener("resize", updateProgress);
 
     return () => {
       if (frame) {
@@ -110,7 +104,7 @@ export default function ScrollMorphHero() {
       }
 
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", updateViewportWidth);
+      window.removeEventListener("resize", updateProgress);
     };
   }, []);
 
@@ -137,23 +131,21 @@ export default function ScrollMorphHero() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
+  // 스테이지 크기는 ResizeObserver 가 클라이언트에서 채우므로 SSR 중에는 항상 빈 배열이다.
+  const { sourcePoints, targetPoints } = useMemo(() => {
     if (reduceMotion || stageSize.width === 0 || stageSize.height === 0) {
-      return;
+      return { sourcePoints: EMPTY_POINTS, targetPoints: EMPTY_POINTS };
     }
 
-    const source = sampleSvgPathsToStage(koreaPaths, effectiveParticleCount, KOREA_VIEW_BOX, {
-      width: stageSize.width,
-      height: stageSize.height,
-    });
-
-    const target = buildWordmarkPoints("yoonho.dev", effectiveParticleCount, {
-      width: stageSize.width,
-      height: stageSize.height,
-    });
-
-    setSourcePoints(source);
-    setTargetPoints(target);
+    return {
+      sourcePoints: sampleSvgPathsToStage(
+        koreaPaths,
+        effectiveParticleCount,
+        KOREA_VIEW_BOX,
+        stageSize
+      ),
+      targetPoints: buildWordmarkPoints("yoonho.dev", effectiveParticleCount, stageSize),
+    };
   }, [effectiveParticleCount, reduceMotion, stageSize]);
 
   useEffect(() => {
@@ -224,10 +216,7 @@ export default function ScrollMorphHero() {
     const height = Math.max(1, Math.floor(stageSize.height));
     context.clearRect(0, 0, width, height);
 
-    const frame = getParticleFrame(progressRef.current, sourcePoints, targetPoints, seeds, {
-      width,
-      height,
-    });
+    const frame = getParticleFrame(progressRef.current, sourcePoints, targetPoints, seeds);
 
     frame.particles.forEach((particle) => {
       if (particle.alpha <= 0.01) {
@@ -349,22 +338,19 @@ export default function ScrollMorphHero() {
               <KoreaMap className="h-full w-full" />
             </div>
 
-            {!reduceMotion ? (
-              <canvas
-                ref={canvasRef}
-                className="pointer-events-none absolute inset-0 h-full w-full"
-                aria-hidden="true"
-                style={{ opacity: particleOpacity }}
-              />
-            ) : null}
+            <canvas
+              ref={canvasRef}
+              className="pointer-events-none absolute inset-0 h-full w-full"
+              aria-hidden="true"
+              style={{ opacity: particleOpacity }}
+            />
           </div>
 
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
             <div
               className="text-center font-sans text-[clamp(2.15rem,10vw,6rem)] font-bold lowercase tracking-[-0.08em] text-white transition-opacity duration-300 md:translate-y-[6svh] md:text-[clamp(2.5rem,8vw,6rem)]"
               style={{
-                opacity: reduceMotion ? 1 : wordmarkOpacity,
-                textShadow: reduceMotion ? "none" : "none",
+                opacity: wordmarkOpacity,
                 transform: isMobileViewport ? `translateY(${mobileWordmarkTranslate}svh)` : undefined,
               }}
             >
@@ -374,16 +360,12 @@ export default function ScrollMorphHero() {
 
           <div
             className="pointer-events-none absolute bottom-[6svh] left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 transition-opacity duration-300 md:bottom-[8svh] md:gap-3"
-            style={{ opacity: reduceMotion ? 0 : hintOpacity }}
+            style={{ opacity: hintOpacity }}
           >
             <div className="flex h-8 w-5 justify-center rounded-full border border-white/30 p-1">
               <motion.div
                 className="h-1.5 w-1.5 rounded-full bg-white/70"
-                animate={
-                  reduceMotion
-                    ? { y: 0, opacity: 1 }
-                    : { y: [0, 12], opacity: [1, 0] }
-                }
+                animate={{ y: [0, 12], opacity: [1, 0] }}
                 transition={{
                   duration: 1.5,
                   repeat: Infinity,
