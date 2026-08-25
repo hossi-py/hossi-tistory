@@ -28,6 +28,7 @@ export const EXPERIENCES: Experience[] = [
       "Vue 2 레거시의 Vue 3 + Composition API 전환 주도",
       "18종 규모의 공통 UI 컴포넌트 라이브러리 설계 및 Storybook 문서화",
       "MSW 기반 독립 개발 환경 구축으로 백엔드 일정 의존 해소",
+      "한국은행 CBDC 시범사업 기준 소스를 KB 환경에 맞게 이식하고 스타뱅킹 웹뷰에 연동",
       "내부·외주 혼합 팀의 기술 규약 문서화 및 코드 품질 표준화",
     ],
   },
@@ -47,6 +48,10 @@ export const SKILL_GROUPS: SkillGroup[] = [
   {
     label: "Framework",
     items: ["Vue 3 (Composition API)", "Vue 2", "React 18"],
+  },
+  {
+    label: "Architecture",
+    items: ["Feature-Sliced Design (FSD)", "디자인 시스템", "WebView 연동"],
   },
   {
     label: "State & Data",

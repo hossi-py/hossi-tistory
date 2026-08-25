@@ -46,20 +46,126 @@ export interface Project {
   role: string;
   techStack: string[];
   description: string;
-  achievements: string[];
+  achievements?: string[];
   href: string;
   github?: string;
   deployUrl?: string;
   category: 'company' | 'personal';
   screenshots?: ProjectScreenshot[];
-  detail: ProjectDetail;
+  /** 케이스 스터디가 준비된 프로젝트만 채운다. 없으면 타임라인에만 나오고 상세 페이지는 만들지 않는다. */
+  detail?: ProjectDetail;
+}
+
+/** 진행 중인 프로젝트인지. 타임라인의 Current 배지와 맥박 애니메이션 기준. */
+export function isOngoing(project: Project) {
+  return project.period.includes('진행');
 }
 
 export const PROJECTS: Project[] = [
   {
+    id: 'msp-portal-enhancement',
+    title: 'MSP Portal 고도화',
+    period: '2026.05.11 ~ 진행 중',
+    role: 'Frontend Developer',
+    techStack: ['React 18', 'TypeScript', 'TanStack Query (v4)', 'Recoil', 'MUI (Material UI v5)'],
+    description:
+      '2024년에 구축한 MSP Portal에 다시 합류해 신규 기능을 추가하는 고도화 작업을 진행하고 있습니다.',
+    href: '/projects/msp-portal-enhancement',
+    category: 'company',
+    // 케이스 스터디는 내용이 정리되면 detail 을 채운다.
+  },
+  {
+    id: 'cbdc',
+    title: '국고금 집행 시범사업 (CBDC)',
+    period: '2026.03.09 ~ 2026.05.08',
+    role: 'Frontend Developer',
+    techStack: ['Vue 3', 'Feature-Sliced Design (FSD)', 'WebView 연동'],
+    description:
+      '한국은행이 주관한 국고금 집행 시범사업. 한국은행이 제공한 기준 소스를 KB 환경에 맞게 커스터마이즈하고, KB스타뱅킹 웹뷰에서 정상 동작하도록 연동했습니다.',
+    achievements: [
+      '한국은행 기준 소스를 분석해 KB 환경 요구사항에 맞게 커스터마이즈',
+      'KB스타뱅킹 앱 웹뷰에서 커스터마이즈한 화면이 정상 로드·접근되도록 세팅 및 코드 수정',
+      '직접 작성하지 않은 코드베이스의 전체 처리 프로세스를 분석해 문서로 정리',
+      '통합테스트 수행',
+    ],
+    href: '/projects/cbdc',
+    category: 'company',
+    detail: {
+      intro:
+        '한국은행 CBDC 국고금 집행 시범사업의 기준 소스를 KB 환경에 맞게 이식하고, KB스타뱅킹 웹뷰에 연동한 프로젝트입니다.',
+      teamSize: 15,
+      duration: '2개월',
+      overview:
+        '한국은행이 주관한 국고금 집행 시범사업으로, KB국민은행과 아톤 소속 프리랜서 개발자, 자사 인력을 합쳐 약 15명이 함께 참여했습니다. 한국은행이 제공한 기준 소스를 각 은행이 자사 환경에 맞게 적용하는 방식이었고, 최종 사용자는 KB스타뱅킹 앱의 웹뷰를 통해 접근하는 구조였습니다. 프로젝트는 Vue 3와 FSD(Feature-Sliced Design) 구조로 구성되어 있었습니다.',
+      works: [
+        {
+          background:
+            '한국은행이 배포한 기준 소스를 각 참여 은행이 자사 환경에 맞춰 적용하는 방식의 사업이었습니다.',
+          problem:
+            '이미 완성된 소스여서 새로 개발할 여지는 적었지만, 기준 소스의 구조가 KB 환경의 요구사항과 그대로 맞지는 않았습니다.',
+          solution:
+            '기준 소스를 분석한 뒤 KB 환경에 맞는 부분을 식별해 커스터마이즈했습니다.',
+          keywords: ['CBDC', '한국은행 기준 소스', '커스터마이징', 'Vue 3'],
+        },
+        {
+          background:
+            '최종 사용자는 KB스타뱅킹 앱 안의 웹뷰 화면을 통해 서비스에 접근하는 구조였습니다.',
+          problem:
+            '커스터마이즈한 소스가 스타뱅킹 웹뷰 환경에 그대로 붙지 않아, 화면 접근과 동작에 제약이 있었습니다.',
+          solution:
+            '웹뷰에서 화면이 정상적으로 로드되고 접근되도록 관련 세팅과 코드를 수정했습니다.',
+          keywords: ['KB스타뱅킹', 'WebView 연동'],
+        },
+        {
+          background:
+            '직접 작성한 코드가 아니었기 때문에, 수정에 앞서 전체 흐름을 파악하는 일이 선행되어야 했습니다.',
+          problem:
+            '이미 짜여진 소스라 로직이 어떤 순서로 흘러가는지 모르는 상태에서는 수정과 이슈 대응이 어려웠습니다.',
+          solution:
+            '전체 처리 프로세스가 어떤 순서로 흘러가는지 분석하고 내용을 문서로 정리했습니다.',
+          keywords: ['코드 리딩', '프로세스 문서화'],
+        },
+      ],
+      process: [
+        '한국은행 기준 소스 분석 및 FSD 구조 파악',
+        'KB 환경 요구사항에 맞춘 소스 커스터마이즈',
+        'KB스타뱅킹 웹뷰 연동을 위한 세팅 및 코드 수정',
+        '전체 처리 프로세스 분석 및 문서화',
+        '통합테스트 수행',
+      ],
+      result:
+        '한국은행 기준 소스를 KB 환경에 맞게 커스터마이즈하여 KB스타뱅킹 웹뷰에서 동작하도록 연동을 완료했고, 통합테스트까지 마쳤습니다.',
+      resultHighlights: [
+        'KB스타뱅킹 웹뷰 연동 완료',
+        '기준 소스 기반 KB 커스터마이즈 적용',
+        '전체 처리 프로세스 문서화',
+        '통합테스트 수행',
+      ],
+      growth: [
+        {
+          type: 'achievement',
+          content:
+            '한국은행·KB국민은행·외부 프리랜서가 함께하는 다자간 협업 환경에서 자사가 맡은 연동을 기간 내에 완수한 경험',
+        },
+        {
+          type: 'lesson',
+          content:
+            '직접 개발하지 않은 코드베이스를 빠르게 읽고 흐름을 파악하는 역량이, 신규 개발만큼이나 실무에서 중요하다는 것을 체감',
+        },
+        {
+          type: 'lesson',
+          content:
+            'FSD(Feature-Sliced Design) 구조를 실무 프로젝트에서 접하며 도메인 중심 폴더 구조의 장단점을 경험',
+        },
+      ],
+      competency:
+        '이미 작성된 코드베이스를 분석해 흐름을 파악하고, 다른 환경에 맞게 이식·연동하는 작업을 수행할 수 있습니다. 특히 앱 웹뷰처럼 제약이 있는 실행 환경에 웹 화면을 안정적으로 붙여 본 경험이 있습니다.',
+    },
+  },
+  {
     id: 'kb-planit',
     title: 'KB Planit (KB플랜잇)',
-    period: '2025.05.03 ~ 진행 중',
+    period: '2025.05.03 ~ 2026.03.06',
     role: 'Frontend Developer',
     techStack: [
       'Vue 3 (Composition API)',
@@ -427,9 +533,9 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'alfred',
-    title: 'Alfred (신기술 연구)',
+    title: 'Alfred (신기술 연구 및 개발)',
     period: '2022.01.17 ~ 2022.07.31',
-    role: 'Frontend Developer',
+    role: 'SR 시스템 Backend · Frontend 개발',
     techStack: ['Vue 2', 'TypeScript', 'Vuex', 'Axios', 'vue/composition-api'],
     description:
       'SaaS 사업부에서 개발 하는 다양한 ITEM(SaaS서비스)들의 계약을 관리 하고, 고객들의 SR접수와 사용현황및 미터링 현황을 보여주는 SaaS 서비스들의 현황 관리 시스템',

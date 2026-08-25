@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import { Section, SectionHeading } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
-import { PROJECTS } from "@/lib/projects";
+import { PROJECTS, isOngoing } from "@/lib/projects";
 import { getSectionIndex } from "@/lib/sections";
 import { cn } from "@/lib/utils";
 
@@ -29,7 +29,7 @@ export function ProjectsSection() {
         <ul className="flex flex-col gap-3">
           {PROJECTS.map((project, index) => {
             const isExpanded = expandedId === project.id;
-            const isCurrent = index === 0;
+            const isCurrent = isOngoing(project);
             const panelId = `career-panel-${project.id}`;
 
             return (
@@ -104,16 +104,18 @@ export function ProjectsSection() {
                             {project.description}
                           </p>
 
-                          <ul className="mt-5 space-y-2.5">
-                            {project.achievements.map((achievement) => (
-                              <li key={achievement} className="flex gap-3">
-                                <span className="mt-[9px] size-1 shrink-0 rounded-full bg-white/40" />
-                                <span className="text-sm leading-[1.75] text-white/70">
-                                  {achievement}
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
+                          {project.achievements && project.achievements.length > 0 ? (
+                            <ul className="mt-5 space-y-2.5">
+                              {project.achievements.map((achievement) => (
+                                <li key={achievement} className="flex gap-3">
+                                  <span className="mt-[9px] size-1 shrink-0 rounded-full bg-white/40" />
+                                  <span className="text-sm leading-[1.75] text-white/70">
+                                    {achievement}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          ) : null}
 
                           <div className="mt-6 flex flex-wrap gap-1.5">
                             {project.techStack.map((tech) => (
@@ -126,13 +128,16 @@ export function ProjectsSection() {
                             ))}
                           </div>
 
-                          <Link
-                            href={project.href}
-                            className="group mt-7 inline-flex items-center gap-1.5 border-b border-white/25 pb-1 text-sm text-white/85 transition-colors hover:border-white hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
-                          >
-                            케이스 스터디 읽기
-                            <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                          </Link>
+                          {/* 케이스 스터디가 없는 프로젝트는 링크를 걸지 않는다 (404 방지) */}
+                          {project.detail ? (
+                            <Link
+                              href={project.href}
+                              className="group mt-7 inline-flex items-center gap-1.5 border-b border-white/25 pb-1 text-sm text-white/85 transition-colors hover:border-white hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+                            >
+                              케이스 스터디 읽기
+                              <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                            </Link>
+                          ) : null}
                         </div>
                       </div>
                     </div>

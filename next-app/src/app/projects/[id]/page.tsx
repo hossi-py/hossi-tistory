@@ -10,15 +10,18 @@ import { PROJECTS } from "@/lib/projects";
 
 type PageParams = { params: Promise<{ id: string }> };
 
+/** detail 이 준비된 프로젝트만 상세 페이지를 만든다. */
+const CASE_STUDIES = PROJECTS.filter((project) => project.detail);
+
 export function generateStaticParams() {
-  return PROJECTS.map((project) => ({ id: project.id }));
+  return CASE_STUDIES.map((project) => ({ id: project.id }));
 }
 
 export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
   const { id } = await params;
-  const project = PROJECTS.find((item) => item.id === id);
+  const project = CASE_STUDIES.find((item) => item.id === id);
 
-  if (!project) {
+  if (!project?.detail) {
     return {};
   }
 
@@ -34,15 +37,15 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
 
 export default async function ProjectCaseStudyPage({ params }: PageParams) {
   const { id } = await params;
-  const index = PROJECTS.findIndex((item) => item.id === id);
+  const index = CASE_STUDIES.findIndex((item) => item.id === id);
+  const project = CASE_STUDIES[index];
 
-  if (index === -1) {
+  if (!project?.detail) {
     notFound();
   }
 
-  const project = PROJECTS[index];
-  const { detail } = project;
-  const nextProject = PROJECTS[(index + 1) % PROJECTS.length];
+  const detail = project.detail;
+  const nextProject = CASE_STUDIES[(index + 1) % CASE_STUDIES.length];
 
   const meta = [
     { label: "Period", value: project.period },

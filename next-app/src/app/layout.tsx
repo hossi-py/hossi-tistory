@@ -41,11 +41,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ko"
-      className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
+    // html 에 height:100% 를 주면 뷰포트 높이로 고정되어 body 와 이중 스크롤 구조가 된다
+    <html lang="ko" className={`dark ${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className="flex min-h-svh flex-col">
         {children}
         <Analytics />
       </body>
