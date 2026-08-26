@@ -4,7 +4,7 @@ import {
   motion,
   useAnimationFrame,
   useReducedMotion,
-} from "framer-motion";
+} from "motion/react";
 import { Menu } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 

@@ -51,6 +51,8 @@ export interface Project {
   github?: string;
   deployUrl?: string;
   category: 'company' | 'personal';
+  /** 대표 프로젝트. Projects 섹션 상단 벤토에 크게 노출된다. 3개 기준으로 레이아웃이 짜여 있다. */
+  featured?: boolean;
   screenshots?: ProjectScreenshot[];
   /** 케이스 스터디가 준비된 프로젝트만 채운다. 없으면 타임라인에만 나오고 상세 페이지는 만들지 않는다. */
   detail?: ProjectDetail;
@@ -187,6 +189,7 @@ export const PROJECTS: Project[] = [
       '프로젝트 독자 기술 보호 및 자산화를 위해 소프트웨어 저작권 등록 요건 분석 및 프로그램등록신청서 작성을 주도하여 저작권 권리 확보',
     ],
     href: '/projects/kb-planit',
+    featured: true,
     category: 'company',
     detail: {
       intro:
@@ -282,6 +285,7 @@ export const PROJECTS: Project[] = [
       'Alova 전역 인터셉터를 활용한 에러 핸들링 일괄 처리로 중복 로직 제거 및 공통 대응 체계 구축',
     ],
     href: '/projects/gen-ai',
+    featured: true,
     category: 'company',
     detail: {
       intro:
@@ -373,6 +377,7 @@ export const PROJECTS: Project[] = [
       '외부 협력사 대상의 프론트엔드 개발 가이드라인 수립 및 기술 커뮤니케이션 리딩을 통해 협업 모듈의 코드 품질 상향 평준화',
     ],
     href: '/projects/msp-portal',
+    featured: true,
     category: 'company',
     detail: {
       intro:

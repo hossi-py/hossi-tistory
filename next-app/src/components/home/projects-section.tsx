@@ -4,6 +4,8 @@ import { ArrowUpRight, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
+import { FeaturedProjects } from "@/components/home/featured-projects";
+import { BorderBeam } from "@/components/magicui/border-beam";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
 import { PROJECTS, isOngoing } from "@/lib/projects";
@@ -21,6 +23,12 @@ export function ProjectsSection() {
         title="진행한 프로젝트"
         description="R&D 단계의 첫 화면부터 그룹사 공동 플랫폼까지. 각 항목을 열면 무엇을 맡았고 무엇이 남았는지 볼 수 있습니다."
       />
+
+      <FeaturedProjects />
+
+      <Reveal>
+        <p className="mb-5 text-[11px] uppercase tracking-[0.32em] text-white/35">All Projects</p>
+      </Reveal>
 
       <div className="relative">
         {/* 타임라인 축 */}
@@ -51,12 +59,23 @@ export function ProjectsSection() {
                 <Reveal delay={Math.min(index, 4) * 0.05}>
                   <div
                     className={cn(
-                      "rounded-2xl border backdrop-blur-xl transition-colors duration-300",
+                      "relative rounded-2xl border backdrop-blur-xl transition-colors duration-300",
                       isExpanded
                         ? "border-white/16 bg-white/[0.04]"
                         : "border-white/8 bg-white/[0.015] hover:border-white/14 hover:bg-white/[0.03]"
                     )}
                   >
+                    {/* 진행 중인 프로젝트 한 건에만. 전부 두르면 강조가 사라진다. */}
+                    {isCurrent ? (
+                      <BorderBeam
+                        size={90}
+                        duration={7}
+                        borderWidth={1.5}
+                        colorFrom="rgba(255,255,255,0)"
+                        colorTo="rgba(255,255,255,0.85)"
+                      />
+                    ) : null}
+
                     <button
                       type="button"
                       onClick={() => setExpandedId(isExpanded ? null : project.id)}

@@ -29,13 +29,16 @@ export const CONTACT_LINKS = [
   { label: "GitHub", value: "github.com/hossi-py", href: "https://github.com/hossi-py" },
 ] as const;
 
-/** 소개 섹션 상단 지표. 값은 전부 실제 데이터에서 파생시킨다. */
+/**
+ * 소개 섹션 상단 지표. 값은 전부 실제 데이터에서 파생시킨다.
+ * value 를 숫자로 두어야 NumberTicker 가 카운트업할 수 있다.
+ */
 export function getProfileStats() {
   const techStacks = new Set(PROJECTS.flatMap((project) => project.techStack));
 
   return [
-    { value: `${getCareerYears()}년차`, label: "Frontend" },
-    { value: `${PROJECTS.length}`, label: "Projects" },
-    { value: `${techStacks.size}`, label: "Tech Stack" },
+    { value: getCareerYears(), suffix: "년차", label: "Frontend" },
+    { value: PROJECTS.length, suffix: "", label: "Projects" },
+    { value: techStacks.size, suffix: "", label: "Tech Stack" },
   ];
 }
